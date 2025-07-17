@@ -1,0 +1,22 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Safety Zone",
+        "description": "Drone monitoring boundary"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[
+          [85.98200, 23.74700],
+          [85.99000, 23.74700],
+          [85.99000, 23.75300],
+          [85.98200, 23.75300],
+          [85.98200, 23.74700]
+        ]]
+      }
+    }
+  ]
+} 

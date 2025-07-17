@@ -1,0 +1,39 @@
+{
+  "drone_id": "DRONE_ZONE_2",
+  "date": "2025-07-11",
+  "location": "Zone B",
+  "violations": [
+    {
+      "id": "v4",
+      "type": "Equipment Malfunction",
+      "timestamp": "09:15:30",
+      "latitude": 23.75123,
+      "longitude": 85.98734,
+      "image_url": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "v5",
+      "type": "Fire Detected",
+      "timestamp": "09:32:45",
+      "latitude": 23.75087,
+      "longitude": 85.98654,
+      "image_url": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "v6",
+      "type": "No PPE Kit",
+      "timestamp": "09:48:12",
+      "latitude": 23.75156,
+      "longitude": 85.98789,
+      "image_url": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "v7",
+      "type": "Unauthorized Person",
+      "timestamp": "10:05:33",
+      "latitude": 23.75098,
+      "longitude": 85.98712,
+      "image_url": "https://via.placeholder.com/150"
+    }
+  ]
+} 
