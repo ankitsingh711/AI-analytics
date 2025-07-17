@@ -25,7 +25,7 @@ class Violation(Base):
     __tablename__ = "violations"
     
     id = Column(Integer, primary_key=True, index=True)
-    violation_id = Column(String, unique=True, index=True)
+    violation_id = Column(String, index=True)
     type = Column(String, index=True)
     timestamp = Column(String)
     latitude = Column(Float)

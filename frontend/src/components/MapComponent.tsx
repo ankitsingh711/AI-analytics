@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Violation } from '@/types';
+import { Violation } from '../types';
 
 interface MapComponentProps {
   violations: Violation[];
@@ -56,7 +56,7 @@ export default function MapComponent({ violations }: MapComponentProps) {
       }).addTo(mapInstanceRef.current);
 
       // Add boundary polygon
-      L.geoJSON(BOUNDARY_GEOJSON as any, {
+      L.geoJSON(BOUNDARY_GEOJSON as GeoJSON.FeatureCollection, {
         style: {
           color: '#3B82F6',
           weight: 2,
@@ -110,7 +110,7 @@ export default function MapComponent({ violations }: MapComponentProps) {
     });
 
     // Add boundary polygon again to ensure it's on top
-    L.geoJSON(BOUNDARY_GEOJSON as any, {
+    L.geoJSON(BOUNDARY_GEOJSON as GeoJSON.FeatureCollection, {
       style: {
         color: '#3B82F6',
         weight: 2,

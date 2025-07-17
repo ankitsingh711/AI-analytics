@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { ArrowUpDown, ArrowUp, ArrowDown, Eye } from 'lucide-react';
-import { Violation } from '@/types';
+import { Violation } from '../types';
 
 interface ViolationsTableProps {
   violations: Violation[];

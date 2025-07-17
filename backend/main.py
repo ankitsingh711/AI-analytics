@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Depends, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from sqlalchemy import func
+from sqlalchemy import func, and_
 from typing import List, Optional
 import json
 import models
@@ -13,9 +13,15 @@ app = FastAPI(title="AI Analytics Dashboard API", version="1.0.0")
 # Enable CORS for frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://frontend:3000"],
+    allow_origins=[
+        "http://localhost:3000",  # Local development
+        "http://frontend:3000",   # Docker internal network
+        "http://127.0.0.1:3000",  # Alternative localhost
+        "http://0.0.0.0:3000",    # Any interface
+        "*"  # Allow all origins for development (remove in production)
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -44,39 +50,62 @@ async def upload_report(file: UploadFile = File(...), db: Session = Depends(get_
             if field not in data:
                 raise HTTPException(status_code=400, detail=f"Missing required field: {field}")
         
-        # Create drone report
-        db_report = DroneReport(
-            drone_id=data['drone_id'],
-            date=data['date'],
-            location=data['location']
-        )
-        db.add(db_report)
-        db.commit()
-        db.refresh(db_report)
+        # Check if a report with same drone_id and date already exists
+        existing_report = db.query(DroneReport).filter(
+            and_(DroneReport.drone_id == data['drone_id'], DroneReport.date == data['date'])
+        ).first()
+        
+        if existing_report:
+            # Delete existing violations for this report to avoid duplicates
+            db.query(Violation).filter(Violation.report_id == existing_report.id).delete()
+            db.commit()
+            
+            # Use the existing report
+            db_report = existing_report
+        else:
+            # Create new drone report
+            db_report = DroneReport(
+                drone_id=data['drone_id'],
+                date=data['date'],
+                location=data['location']
+            )
+            db.add(db_report)
+            db.commit()
+            db.refresh(db_report)
         
         # Create violations
+        violations_created = 0
         for violation_data in data['violations']:
-            db_violation = Violation(
-                violation_id=violation_data['id'],
-                type=violation_data['type'],
-                timestamp=violation_data['timestamp'],
-                latitude=violation_data['latitude'],
-                longitude=violation_data['longitude'],
-                image_url=violation_data['image_url'],
-                report_id=db_report.id
-            )
-            db.add(db_violation)
+            try:
+                db_violation = Violation(
+                    violation_id=violation_data['id'],
+                    type=violation_data['type'],
+                    timestamp=violation_data['timestamp'],
+                    latitude=violation_data['latitude'],
+                    longitude=violation_data['longitude'],
+                    image_url=violation_data['image_url'],
+                    report_id=db_report.id
+                )
+                db.add(db_violation)
+                violations_created += 1
+            except Exception as violation_error:
+                print(f"Error creating violation {violation_data['id']}: {violation_error}")
+                continue
         
         db.commit()
         
-        # Return the created report with violations
+        # Return the created/updated report with violations
         db.refresh(db_report)
         return db_report
         
     except json.JSONDecodeError:
-        raise HTTPException(status_code=400, detail="Invalid JSON file")
+        raise HTTPException(status_code=400, detail="Invalid JSON file format. Please check your file and try again.")
+    except KeyError as e:
+        raise HTTPException(status_code=400, detail=f"Missing required field in violation data: {str(e)}")
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        db.rollback()
+        print(f"Upload error: {str(e)}")
+        raise HTTPException(status_code=500, detail="An error occurred while processing your file. Please try again.")
 
 @app.get("/dashboard/stats", response_model=schemas.DashboardStats)
 def get_dashboard_stats(db: Session = Depends(get_db)):
@@ -177,6 +206,35 @@ def get_dates(db: Session = Depends(get_db)):
     """Get all unique dates"""
     dates = db.query(DroneReport.date).distinct().all()
     return [d[0] for d in dates]
+
+@app.delete("/reports/{report_id}")
+def delete_report(report_id: int, db: Session = Depends(get_db)):
+    """Delete a report and all its violations"""
+    report = db.query(DroneReport).filter(DroneReport.id == report_id).first()
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    
+    # Delete associated violations first
+    db.query(Violation).filter(Violation.report_id == report_id).delete()
+    # Delete the report
+    db.delete(report)
+    db.commit()
+    
+    return {"message": "Report deleted successfully"}
+
+@app.post("/reset-database")
+def reset_database(db: Session = Depends(get_db)):
+    """Reset the database by clearing all data"""
+    try:
+        # Delete all violations first (foreign key constraint)
+        db.query(Violation).delete()
+        # Delete all reports
+        db.query(DroneReport).delete()
+        db.commit()
+        return {"message": "Database reset successfully"}
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=500, detail=f"Error resetting database: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn

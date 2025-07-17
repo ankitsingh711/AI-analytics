@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Filter, X } from 'lucide-react';
-import { Filters } from '@/types';
+import { Filters } from '../types';
 
 interface FiltersSectionProps {
   filters: Filters;
