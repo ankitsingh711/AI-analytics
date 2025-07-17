@@ -1,0 +1,47 @@
+{
+  "drone_id": "DRONE_BETA_002",
+  "date": "2025-07-17",
+  "location": "Beta Zone - Warehouse District",
+  "violations": [
+    {
+      "id": "BET001",
+      "type": "Unauthorized Person",
+      "timestamp": "10:45:12",
+      "latitude": 23.75123,
+      "longitude": 85.98734,
+      "image_url": "https://via.placeholder.com/150/ff6600/ffffff?text=Intruder"
+    },
+    {
+      "id": "BET002",
+      "type": "Equipment Malfunction",
+      "timestamp": "11:03:28",
+      "latitude": 23.75134,
+      "longitude": 85.98745,
+      "image_url": "https://via.placeholder.com/150/9900ff/ffffff?text=Broken"
+    },
+    {
+      "id": "BET003",
+      "type": "No PPE Kit",
+      "timestamp": "11:27:56",
+      "latitude": 23.75145,
+      "longitude": 85.98756,
+      "image_url": "https://via.placeholder.com/150/ffcc00/ffffff?text=Safety"
+    },
+    {
+      "id": "BET004",
+      "type": "Fire Detected",
+      "timestamp": "11:54:33",
+      "latitude": 23.75156,
+      "longitude": 85.98767,
+      "image_url": "https://via.placeholder.com/150/ff0000/ffffff?text=Flame"
+    },
+    {
+      "id": "BET005",
+      "type": "Unauthorized Person",
+      "timestamp": "12:18:09",
+      "latitude": 23.75167,
+      "longitude": 85.98778,
+      "image_url": "https://via.placeholder.com/150/ff6600/ffffff?text=Trespasser"
+    }
+  ]
+} 

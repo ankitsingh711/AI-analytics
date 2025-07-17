@@ -3,7 +3,7 @@ from typing import List, Optional
 from datetime import datetime
 
 class ViolationBase(BaseModel):
-    id: str
+    violation_id: str
     type: str
     timestamp: str
     latitude: float
@@ -14,7 +14,6 @@ class ViolationCreate(ViolationBase):
     pass
 
 class Violation(ViolationBase):
-    violation_id: str
     report_id: int
     
     class Config:
@@ -55,4 +54,11 @@ class DashboardStats(BaseModel):
     violations_by_type: dict
     drones: List[str]
     locations: List[str]
-    recent_violations: List[ViolationResponse] 
+    recent_violations: List[ViolationResponse]
+
+class UploadResponse(BaseModel):
+    message: str
+    drone_id: str
+    date: str
+    location: str
+    violations_count: int 

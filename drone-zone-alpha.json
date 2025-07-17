@@ -1,0 +1,39 @@
+{
+  "drone_id": "DRONE_ALPHA_001",
+  "date": "2025-07-17",
+  "location": "Alpha Zone - Manufacturing Sector",
+  "violations": [
+    {
+      "id": "ALF001",
+      "type": "Fire Detected",
+      "timestamp": "08:15:32",
+      "latitude": 23.74891,
+      "longitude": 85.98523,
+      "image_url": "https://via.placeholder.com/150/ff0000/ffffff?text=Fire"
+    },
+    {
+      "id": "ALF002",
+      "type": "Unauthorized Person",
+      "timestamp": "08:22:45",
+      "latitude": 23.74902,
+      "longitude": 85.98534,
+      "image_url": "https://via.placeholder.com/150/ff6600/ffffff?text=Person"
+    },
+    {
+      "id": "ALF003",
+      "type": "No PPE Kit",
+      "timestamp": "08:35:18",
+      "latitude": 23.74915,
+      "longitude": 85.98545,
+      "image_url": "https://via.placeholder.com/150/ffcc00/ffffff?text=PPE"
+    },
+    {
+      "id": "ALF004",
+      "type": "Equipment Malfunction",
+      "timestamp": "09:12:07",
+      "latitude": 23.74928,
+      "longitude": 85.98556,
+      "image_url": "https://via.placeholder.com/150/9900ff/ffffff?text=Equipment"
+    }
+  ]
+} 

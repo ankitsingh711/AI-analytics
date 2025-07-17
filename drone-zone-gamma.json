@@ -1,0 +1,31 @@
+{
+  "drone_id": "DRONE_GAMMA_003",
+  "date": "2025-07-17",
+  "location": "Gamma Zone - Research Complex",
+  "violations": [
+    {
+      "id": "GAM001",
+      "type": "No PPE Kit",
+      "timestamp": "14:12:45",
+      "latitude": 23.74756,
+      "longitude": 85.98445,
+      "image_url": "https://via.placeholder.com/150/ffcc00/ffffff?text=No+Helmet"
+    },
+    {
+      "id": "GAM002",
+      "type": "Fire Detected",
+      "timestamp": "14:28:17",
+      "latitude": 23.74767,
+      "longitude": 85.98456,
+      "image_url": "https://via.placeholder.com/150/ff0000/ffffff?text=Smoke"
+    },
+    {
+      "id": "GAM003",
+      "type": "Equipment Malfunction",
+      "timestamp": "14:45:03",
+      "latitude": 23.74778,
+      "longitude": 85.98467,
+      "image_url": "https://via.placeholder.com/150/9900ff/ffffff?text=Malfunction"
+    }
+  ]
+} 
